@@ -6,19 +6,15 @@ import { IncomingForm } from 'formidable';
 import { CHAT_FILES_SERVER_HOST, OPENAI_API_HOST } from '@/utils/app/const';
 import { LlamaIndex } from '@/types';
 import PDFParser from 'pdf-parse';
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4, v4 } from 'uuid';
 import axios, { AxiosResponse } from 'axios';
-import { PineconeClient } from "@pinecone-database/pinecone";
-
-let pinecone: PineconeClient | null = null;
-
-const initPineconeClient = async () => {
-  pinecone = new PineconeClient();
-  await pinecone.init({
-    environment: process.env.PINECONE_ENVIRONMENT!,
-    apiKey: process.env.PINECONE_API_KEY!,
-  });
-}
+import { PineconeClient } from '@pinecone-database/pinecone';
+import { PDFLoader } from 'langchain/document_loaders';
+import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
+import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
+import { PineconeStore } from 'langchain/vectorstores/pinecone';
+import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
+import { CustomPDFLoader } from '@/utils/customPDFLoader';
 
 export const config = {
   api: {
@@ -27,19 +23,21 @@ export const config = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-
   const pinecone = new PineconeClient();
   await pinecone.init({
     environment: process.env.PINECONE_ENVIRONMENT as string,
     apiKey: process.env.PINECONE_API_KEY as string,
   });
 
-  try {
-    const form = new IncomingForm({
-      multiples: false,
-      uploadDir: 'pdf'
-    });
+  const form = new IncomingForm({
+    multiples: false,
+    uploadDir: 'pdf',
+    filename: (name: string, ext: string) => {
+      return v4() + '.pdf';
+    },
+  });
 
+  try {
     // Form.parse will automatically save the file to the temporary directory.
     const fData = await new Promise<{ fields: any; files: any }>(
       (resolve, reject) => {
@@ -53,52 +51,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (fData?.files.file) {
       const uploadedFile = fData.files.file;
 
-      const fileBuffer = fs.readFileSync(uploadedFile.filepath);
-      const pdfText = await PDFParser(fileBuffer);
+      const directoryLoader = new DirectoryLoader(uploadedFile.filepath, {
+        '.pdf': (path) => new CustomPDFLoader(path),
+      });
 
-      const paragraphs = pdfText.text.split(/\n\s*\n/);
-      const splitedText = paragraphs.filter(paragraph => paragraph.trim().length > 0);
-      
-      let embeddings = [];
+      // const loader = new PDFLoader(filePath);
+      const rawDocs = await directoryLoader.load();
 
-      for (const snippet of splitedText) {
-        try {
-          const response: AxiosResponse = await axios.post(
-            `${OPENAI_API_HOST}/v1/embeddings`,
-            {
-              model:'text-embedding-ada-002',
-              input: snippet,
-            },
-            {
-                headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
-              }
-            },
-          );
+      const textSplitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 1000,
+        chunkOverlap: 200,
+      });
 
-          embeddings.push(response.data)
-        } catch (err) {
-          console.error(`Embedding Error: ${err}`)
-        }
-      }
+      const docs = await textSplitter.splitDocuments(rawDocs);
 
-      const uniqueNameSpace = uuidv4();
-      const upsertRequest = {
-        vectors: embeddings.map((item) => ({
-          id: uuidv4(),
-          values: item.data[0].embedding,
-          metadata: {
-            genre: "pdf"
-          }
-        })),
-        namespace: uniqueNameSpace
+      console.log('creating vector store...');
+      // Create and store the embeddings in the vectorStore
+      const embeddings = new OpenAIEmbeddings();
+      const index = pinecone.Index(process.env.PINECONE_INDEX ?? '');
+      const dbConfig = {
+        pineconeIndex: index,
+        namespace: process.env.PINECONE_NAMESPACE ?? '',
+        textKey: 'text',
       };
 
-      const index = pinecone.Index(process.env.PINECONE_INDEX as string);
-      const upsertResponse = await index.upsert({ upsertRequest });
+      await PineconeStore.fromDocuments(docs, embeddings, dbConfig);
 
-      console.log(upsertResponse)
       // Delete the temporary file after processing
       fs.unlink(uploadedFile.filepath, (err) => {
         if (err) console.error('Error deleting temporary file:', err);
