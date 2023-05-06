@@ -1,12 +1,8 @@
-[![My Skills](https://skillicons.dev/icons?i=nextjs,tailwind,react,python,flask)](https://skillicons.dev)<a href="https://www.buymeacoffee.com/iguangzhengli" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+[![My Skills](https://skillicons.dev/icons?i=nextjs,tailwind,react)](https://skillicons.dev)<a href="https://www.buymeacoffee.com/iguangzhengli" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 > ⚠️⚠️⚠️ Warning: Please understand that the https://chatfiles-ui.fly.dev web demo is temporarily unavailable as used up all the credits available in my free trial. and I am unable to recharge. If necessary, please run it locally yourself. Thanks.
 
-# ChatFiles
-
-EN | [中文文档](README.zh.md)
-
-> this repository use [jerryjliu/llama_index](https://github.com/jerryjliu/llama_index), based on [mckaywrigley/chatbot-ui](https://github.com/mckaywrigley/chatbot-ui), inspired by [madawei2699/myGPTReader](https://github.com/madawei2699/myGPTReader)
+# PDFChatbot
 
 ![Chatfiles](./doc/chatfiles.png)
 
@@ -38,23 +34,6 @@ open browser with http://localhost:3000
 
 ## How to run locally
 ### chatfiles-ui
-
-```shell
-cd chatfiles-ui
-npm install
-npm run dev
-```
-
-### chatfiles
-```shell
-cd chatfiles
-```
-
-create a file named .env with value(OPENAI_API_KEY=your token)
-
-```shell
-python3 server.py
-```
 
 ### how to deploy flyio
 - [Deploy to fly.io](./doc/deploy-flyio.md)
