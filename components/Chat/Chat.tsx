@@ -220,6 +220,7 @@ export const Chat: FC<Props> = memo(
                         handleUploadError={handleUploadError}
                       />
                       {CHAT_FILES_MAX_SIZE != 0 && (
+                      {/* {CHAT_FILES_MAX_SIZE != 0 && (
                         <>
                           <p className="mt-2 px-8 text-xs text-gray-500 dark:text-gray-400">
                             This environment is only for trial and supports a
@@ -248,7 +249,7 @@ export const Chat: FC<Props> = memo(
                             </a>
                           </p>
                         </>
-                      )}
+                      )} */}
                     </div>
                   </div>
                   {isUploading ? (
