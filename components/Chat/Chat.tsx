@@ -219,7 +219,6 @@ export const Chat: FC<Props> = memo(
                         handleIsUploadSuccess={handleIsUploadSuccess}
                         handleUploadError={handleUploadError}
                       />
-                      {CHAT_FILES_MAX_SIZE != 0 && (
                       {/* {CHAT_FILES_MAX_SIZE != 0 && (
                         <>
                           <p className="mt-2 px-8 text-xs text-gray-500 dark:text-gray-400">
