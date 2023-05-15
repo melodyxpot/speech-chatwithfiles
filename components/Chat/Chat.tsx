@@ -206,7 +206,7 @@ export const Chat: FC<Props> = memo(
                     </>
                   ) : undefined}
 
-                  <div className="mx-auto flex w-[350px] flex-col space-y-10 pt-12 sm:w-[600px]">
+                  {/* <div className="mx-auto flex w-[350px] flex-col space-y-10 pt-12 sm:w-[600px]">
                     <div className="flex h-full flex-col space-y-4 rounded border border-neutral-200 p-4 dark:border-neutral-600">
                       <Upload
                         onIndexChange={(index) =>
@@ -219,7 +219,7 @@ export const Chat: FC<Props> = memo(
                         handleIsUploadSuccess={handleIsUploadSuccess}
                         handleUploadError={handleUploadError}
                       />
-                      {/* {CHAT_FILES_MAX_SIZE != 0 && (
+                      {CHAT_FILES_MAX_SIZE != 0 && (
                         <>
                           <p className="mt-2 px-8 text-xs text-gray-500 dark:text-gray-400">
                             This environment is only for trial and supports a
@@ -248,9 +248,9 @@ export const Chat: FC<Props> = memo(
                             </a>
                           </p>
                         </>
-                      )} */}
+                      )}
                     </div>
-                  </div>
+                  </div> */}
                   {isUploading ? (
                     <>
                       <div
