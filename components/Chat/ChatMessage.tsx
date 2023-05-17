@@ -1,13 +1,14 @@
 import { Message } from '@/types';
 import { IconEdit } from '@tabler/icons-react';
 import { useTranslation } from 'next-i18next';
-import { FC, useEffect, useRef, useState, memo } from 'react';
+import { Fragment, FC, useEffect, useRef, useState, memo } from 'react';
 import rehypeMathjax from 'rehype-mathjax';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import { CodeBlock } from '../Markdown/CodeBlock';
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown';
 import { CopyButton } from './CopyButton';
+import { SpeechButton } from './SpeechButton';
 
 interface Props {
   message: Message;
@@ -22,6 +23,7 @@ export const ChatMessage: FC<Props> = memo(
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const [messageContent, setMessageContent] = useState(message.content);
     const [messagedCopied, setMessageCopied] = useState(false);
+    const [speaking, setSpeaking] = useState(false);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -63,6 +65,17 @@ export const ChatMessage: FC<Props> = memo(
         }, 2000);
       });
     };
+
+    const speechOnToggle = () => {
+      if (speaking) {
+        window.speechSynthesis.cancel();
+        setSpeaking(false);
+      } else {
+        const value = new SpeechSynthesisUtterance(message.content);
+        window.speechSynthesis.speak(value);
+        setSpeaking(true);
+      }
+    }
 
     useEffect(() => {
       if (textareaRef.current) {
@@ -199,10 +212,17 @@ export const ChatMessage: FC<Props> = memo(
                 </MemoizedReactMarkdown>
 
                 {(isHovering || window.innerWidth < 640) && (
-                  <CopyButton
-                    messagedCopied={messagedCopied}
-                    copyOnClick={copyOnClick}
-                  />
+                  <div>
+                    <CopyButton
+                      messagedCopied={messagedCopied}
+                      copyOnClick={copyOnClick}
+                    />
+                    <SpeechButton
+                      speechOnToggle={speechOnToggle}
+                      speaking={speaking}
+                    />
+                  </div>
+
                 )}
               </>
             )}
