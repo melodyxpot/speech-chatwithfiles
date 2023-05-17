@@ -124,10 +124,8 @@ export const ChatInput: FC<Props> = ({
             {t('Regenerate response')}
           </button>
         )}
-      <MicrophoneButton />
-
-        <div className="relative flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4">
-          
+        {/* <MicrophoneButton /> */}
+        <div className="relative flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4">  
           <textarea
             ref={textareaRef}
             className="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 pl-2 text-black outline-none focus:ring-0 focus-visible:ring-0 dark:bg-transparent dark:text-white md:pl-0"
@@ -149,7 +147,6 @@ export const ChatInput: FC<Props> = ({
             onChange={handleChange}
             onKeyDown={handleKeyDown}
           />
-
           <button
             className="absolute right-3 rounded-sm p-1 text-neutral-800 hover:bg-neutral-200 hover:text-neutral-900 focus:outline-none dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200"
             onClick={handleSend}
@@ -157,19 +154,6 @@ export const ChatInput: FC<Props> = ({
             <IconSend size={16} className="opacity-60" />
           </button>
         </div>
-      </div>
-      <div className="px-3 pt-2 pb-3 text-center text-[12px] text-black/50 dark:text-white/50 md:px-4 md:pt-3 md:pb-6">
-        {/* <a
-          href="https://github.com/guangzhengli/ChatFiles"
-          target="_blank"
-          rel="noreferrer"
-          className="underline"
-        >
-          ChatFiles
-        </a>{' '}
-        {t(
-          'aims to establish embeddings for ChatGPT and facilitate its ability to engage in document-based conversations.',
-        )} */}
       </div>
     </div>
   );
