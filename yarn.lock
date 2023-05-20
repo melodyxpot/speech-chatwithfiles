@@ -3336,11 +3336,6 @@ react-dom@18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
-react-hook-speech-to-text@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/react-hook-speech-to-text/-/react-hook-speech-to-text-0.8.0.tgz#76f5d87cc6077ff537246d80fc1a45cc932ec25b"
-  integrity sha512-hct4gF0Wesn79Pfg+t2PDCa7n0rfSKdzXI4uxq6A5awwUZZG58T67mJNjZDD9Hu9O+6E1Nk5ZpuIPdDLk1fqmw==
-
 react-i18next@^12.2.0:
   version "12.2.0"
   resolved "https://registry.npmjs.org/react-i18next/-/react-i18next-12.2.0.tgz"
