@@ -126,7 +126,7 @@ export const ChatInput: FC<Props> = ({
         )}
         <div className="relative flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4">  
           <div className='absolute left-2 routeded-sm'>
-            <MicrophoneButton />
+            <MicrophoneButton handleMessageChange={(text: string) => setContent(content + text)} />
           </div>
           <textarea
             ref={textareaRef}
