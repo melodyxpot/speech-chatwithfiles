@@ -15,12 +15,10 @@ const MicrophoneButton: FC<Props> = ({handleMessageChange}) => {
   } = useSpeechRecognition();
 
   useEffect(() => {
-    // handleMessageChange(transcript);  
+    handleMessageChange(transcript || '');
   }, [transcript]);
 
   console.log(`SpeechRecognition Support :=> ${browserSupportsSpeechRecognition}`);
-
-  console.log(transcript, listening)
 
   return (
     <button
