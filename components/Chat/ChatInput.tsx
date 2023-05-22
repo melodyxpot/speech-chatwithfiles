@@ -88,6 +88,9 @@ export const ChatInput: FC<Props> = ({
   const handleSpeech = (text: string) => {
     const inputed = content;
     console.log(inputed, text)
+    if (text === undefined) {
+      setContent(text);
+    }
     if (text !== undefined && inputed !== undefined)
       setContent(inputed + text);
   }
