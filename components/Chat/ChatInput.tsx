@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import { Message, OpenAIModel, OpenAIModelID } from '@/types';
 import { IconPlayerStop, IconRepeat, IconSend } from '@tabler/icons-react';
 import {
@@ -9,7 +10,6 @@ import {
 } from 'react';
 import { useTranslation } from 'next-i18next';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import 'regenerator-runtime/runtime';
 
 interface Props {
   messageIsStreaming: boolean;
