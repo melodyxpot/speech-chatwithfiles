@@ -106,24 +106,21 @@ export const ChatInput: FC<Props> = ({
   };
 
   useEffect(() => {
-    const inputedText = content;
-    if (inputedText === undefined) {
+    handleVoiceCommand(transcript);
+    if (listen) {
       setContent(transcript);
-    }
-    if (transcript !== undefined && inputedText !== undefined) {
-      handleVoiceCommand(transcript);
-      if (listen) {
-        setContent(inputedText + transcript);
-      }
     }
   }, [transcript]);
 
   function handleVoiceCommand (command: string) {
+    console.log(`command :=> ${command.toLowerCase()}`)
     switch(command.toLowerCase()) {
       case 'miss bot':
+        console.log(`start command`)
         setListen(true);
         break;
       case 'send':
+        console.log(`send command`);
         setListen(false);
         handleSend();
         break;
