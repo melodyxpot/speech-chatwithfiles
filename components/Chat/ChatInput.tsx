@@ -33,6 +33,7 @@ export const ChatInput: FC<Props> = ({
   const { t } = useTranslation('chat');
   const [content, setContent] = useState<string>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
+  const [listen, setListen] = useState<boolean>(false);
 
   const {
     transcript,
@@ -105,13 +106,29 @@ export const ChatInput: FC<Props> = ({
   };
 
   useEffect(() => {
-    const inputed = content;
-    if (inputed === undefined) {
+    const inputedText = content;
+    if (inputedText === undefined) {
       setContent(transcript);
     }
-    if (transcript !== undefined && inputed !== undefined)
-      setContent(inputed + transcript);
+    if (transcript !== undefined && inputedText !== undefined) {
+      handleVoiceCommand(transcript);
+      if (listen) {
+        setContent(inputedText + transcript);
+      }
+    }
   }, [transcript]);
+
+  function handleVoiceCommand (command: string) {
+    switch(command.toLowerCase()) {
+      case 'miss bot':
+        setListen(true);
+        break;
+      case 'send':
+        setListen(false);
+        handleSend();
+        break;
+    } 
+  }
 
   useEffect(() => {
     if (textareaRef && textareaRef.current) {
