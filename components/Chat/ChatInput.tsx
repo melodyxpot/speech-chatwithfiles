@@ -1,3 +1,4 @@
+import 'regenerator-runtime/runtime';
 import { Message, OpenAIModel, OpenAIModelID } from '@/types';
 import { IconPlayerStop, IconRepeat, IconSend } from '@tabler/icons-react';
 import {
@@ -8,7 +9,7 @@ import {
   useState,
 } from 'react';
 import { useTranslation } from 'next-i18next';
-import MicrophoneButton from './MicrophoneButton';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 interface Props {
   messageIsStreaming: boolean;
@@ -32,6 +33,24 @@ export const ChatInput: FC<Props> = ({
   const { t } = useTranslation('chat');
   const [content, setContent] = useState<string>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
+
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition
+  } = useSpeechRecognition();
+
+  useEffect(() => {
+    SpeechRecognition.startListening();
+    console.log('Speech Available => ' + browserSupportsSpeechRecognition)
+  }, []);
+
+  useEffect(() => {
+    if (!listening) {
+      SpeechRecognition.startListening();
+    }
+  }, [listening]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -85,16 +104,14 @@ export const ChatInput: FC<Props> = ({
     }
   };
 
-  const handleSpeech = (text: string) => {
+  useEffect(() => {
     const inputed = content;
-    console.log(inputed, text)
     if (inputed === undefined) {
-      console.log("inputed: text => " + text)
-      setContent(text);
+      setContent(transcript);
     }
-    if (text !== undefined && inputed !== undefined)
-      setContent(inputed + text);
-  }
+    if (transcript !== undefined && inputed !== undefined)
+      setContent(inputed + transcript);
+  }, [transcript]);
 
   useEffect(() => {
     if (textareaRef && textareaRef.current) {
@@ -136,15 +153,12 @@ export const ChatInput: FC<Props> = ({
           </button>
         )}
         <div className="relative flex w-full flex-grow flex-col rounded-md border border-black/10 bg-white py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-[#40414F] dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4">  
-          <div className='absolute left-2 routeded-sm'>
-            <MicrophoneButton handleMessageChange={handleSpeech} />
-          </div>
           <textarea
             ref={textareaRef}
             className="m-0 w-full resize-none border-0 bg-transparent p-0 pr-7 text-black outline-none focus:ring-0 focus-visible:ring-0 dark:bg-transparent dark:text-white md:pl-0"
             style={{
               resize: 'none',
-              paddingLeft: '20px',
+              paddingLeft: '15px',
               bottom: `${textareaRef?.current?.scrollHeight}px`,
               maxHeight: '400px',
               overflow: `${
