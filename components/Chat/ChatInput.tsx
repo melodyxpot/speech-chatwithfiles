@@ -113,22 +113,20 @@ export const ChatInput: FC<Props> = ({
   }, [transcript]);
 
   function handleVoiceCommand (command: string) {
-    console.log(`command :=> ${command.toLowerCase()}`)
-    switch(command.toLowerCase()) {
-      case 'miss bot':
-        console.log(`start command`)
-        setListen(true);
-        break;
-      case 'missbot':
-        console.log(`start command`)
-        setListen(true);
-        break;
-      case 'send':
-        console.log(`send command`);
-        setListen(false);
-        handleSend();
-        break;
-    } 
+    console.log(`command :=> ${command.toLowerCase()}`);
+    const startCommandList: string[] = [
+      'despot', 'missbot', 'misbot', 'missput', 'misssport', 'misssports'
+    ];
+    if (startCommandList.filter((item: string) => 
+      item.trim().replace(' ', '') === command).length > 0) {
+      console.log(`start command`)
+      setListen(true);
+    }
+    if (command === 'send') {
+      console.log(`send command`);
+      setListen(false);
+      handleSend();
+    }
   }
 
   useEffect(() => {
