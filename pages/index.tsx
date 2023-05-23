@@ -50,8 +50,16 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<ErrorMessage | null>(null);
   const [currentMessage, setCurrentMessage] = useState<Message>();
+  const [speaking, setSpeaking] = useState<boolean>(true);
 
   const stopConversationRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    if (!speaking) {
+      window.speechSynthesis.cancel();
+      setSpeaking(false);
+    }
+  }, [speaking]);
 
   const handleSend = async (message: Message, deleteCount = 0) => {
     if (selectedConversation) {
@@ -179,6 +187,14 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
             setSelectedConversation(updatedConversation);
           }
+        }
+
+        // Speech-to-Text after bot reply
+        setSpeaking(true);
+        if (speaking) {
+          const value = new SpeechSynthesisUtterance(text);
+          window.speechSynthesis.speak(value);
+          setSpeaking(true);
         }
       } else {
         // send to chat file server
@@ -626,6 +642,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
               onUpdateConversation={handleUpdateConversation}
               onEditMessage={handleEditMessage}
               stopConversationRef={stopConversationRef}
+              speaking={speaking}
+              setSpeaking={setSpeaking}
             />
           </div>
         </main>
