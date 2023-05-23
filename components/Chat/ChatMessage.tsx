@@ -14,16 +14,17 @@ interface Props {
   message: Message;
   messageIndex: number;
   onEditMessage: (message: Message, messageIndex: number) => void;
+  speaking: boolean,
+  setSpeaking: (speaking: boolean) => void
 }
 
 export const ChatMessage: FC<Props> = memo(
-  ({ message, messageIndex, onEditMessage }) => {
+  ({ message, messageIndex, onEditMessage, speaking, setSpeaking }) => {
     const { t } = useTranslation('chat');
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [isHovering, setIsHovering] = useState<boolean>(false);
     const [messageContent, setMessageContent] = useState(message.content);
     const [messagedCopied, setMessageCopied] = useState(false);
-    const [speaking, setSpeaking] = useState(false);
 
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 

@@ -115,7 +115,7 @@ export const ChatInput: FC<Props> = ({
   function handleVoiceCommand (command: string) {
     console.log(`command :=> ${command.toLowerCase()}`);
     const startCommandList: string[] = [
-      'despot', 'missbot', 'misbot', 'missput', 'misssport', 'misssports'
+      'despot', 'missbot', 'misbot', 'missput', 'misssport', 'misssports', 'despot', 'misbah', 'missbut', 'mispot'
     ];
     if (startCommandList.filter((item: string) => 
       item.trim().replace(' ', '') === command).length > 0) {
