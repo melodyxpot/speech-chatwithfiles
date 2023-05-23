@@ -119,6 +119,10 @@ export const ChatInput: FC<Props> = ({
         console.log(`start command`)
         setListen(true);
         break;
+      case 'missbot':
+        console.log(`start command`)
+        setListen(true);
+        break;
       case 'send':
         console.log(`send command`);
         setListen(false);
