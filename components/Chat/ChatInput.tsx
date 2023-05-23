@@ -52,6 +52,18 @@ export const ChatInput: FC<Props> = ({
       SpeechRecognition.startListening();
     }
   }, [listening]);
+  
+  useEffect(() => {
+    handleVoiceCommand(transcript);
+    if (listen) {
+      const text: string | undefined = content;
+      if (text !== undefined) {
+        setContent(text + transcript)
+      } else {
+        setContent(transcript);
+      }
+    }
+  }, [transcript]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const value = e.target.value;
@@ -104,13 +116,6 @@ export const ChatInput: FC<Props> = ({
       }
     }
   };
-
-  useEffect(() => {
-    handleVoiceCommand(transcript);
-    if (listen) {
-      setContent(transcript);
-    }
-  }, [transcript]);
 
   function handleVoiceCommand (command: string) {
     console.log(`command :=> ${command.toLowerCase()}`);
