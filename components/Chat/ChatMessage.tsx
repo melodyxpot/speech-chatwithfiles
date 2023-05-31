@@ -72,8 +72,12 @@ export const ChatMessage: FC<Props> = memo(
         window.speechSynthesis.cancel();
         setSpeaking(false);
       } else {
-        const value = new SpeechSynthesisUtterance(message.content);
-        window.speechSynthesis.speak(value);
+        const utterance = new SpeechSynthesisUtterance(message.content);
+        const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
+        if (voices.length > 0) {
+          utterance.voice = voices[0];
+        }
+        window.speechSynthesis.speak(utterance);
         setSpeaking(true);
       }
     }

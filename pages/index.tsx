@@ -192,8 +192,12 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
         // Speech-to-Text after bot reply
         setSpeaking(true);
         if (speaking) {
-          const value = new SpeechSynthesisUtterance(text);
-          window.speechSynthesis.speak(value);
+          const utterance = new SpeechSynthesisUtterance(text);
+          const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
+          if (voices.length > 0) {
+            utterance.voice = voices[0];
+          }
+          window.speechSynthesis.speak(utterance);
           setSpeaking(true);
         }
       } else {
