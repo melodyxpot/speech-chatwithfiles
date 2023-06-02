@@ -34,6 +34,7 @@ export const ChatInput: FC<Props> = ({
   const [content, setContent] = useState<string>();
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [listen, setListen] = useState<boolean>(false);
+  const [speechCatch, setSpeechCatch] = useState<string>('');
 
   const {
     transcript,
@@ -49,6 +50,13 @@ export const ChatInput: FC<Props> = ({
 
   useEffect(() => {
     if (!listening) {
+      const text: string | undefined = content;
+      if (text !== undefined) {
+        setContent(text + speechCatch);
+      } else {
+        setContent(speechCatch);
+      }
+      setSpeechCatch('');
       SpeechRecognition.startListening();
     }
   }, [listening]);
@@ -56,12 +64,7 @@ export const ChatInput: FC<Props> = ({
   useEffect(() => {
     handleVoiceCommand(transcript);
     if (listen) {
-      const text: string | undefined = content;
-      if (text !== undefined) {
-        setContent(text + transcript)
-      } else {
-        setContent(transcript);
-      }
+        setSpeechCatch(transcript);
     }
   }, [transcript]);
 
@@ -120,7 +123,7 @@ export const ChatInput: FC<Props> = ({
   function handleVoiceCommand (command: string) {
     console.log(`command :=> ${command.toLowerCase()}`);
     const startCommandList: string[] = [
-      'despot', 'missbot', 'misbot', 'missput', 'misssport', 'misssports', 'despot', 'misbah', 'missbut', 'mispot'
+      'despot', 'missbot', 'baseball', 'misbot', 'missput', 'misssport', 'misssports', 'despot', 'misbah', 'missbut', 'mispot'
     ];
     if (startCommandList.filter((item: string) => 
       item.trim().replace(' ', '') === command).length > 0) {
