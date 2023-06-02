@@ -50,13 +50,15 @@ export const ChatInput: FC<Props> = ({
 
   useEffect(() => {
     if (!listening) {
-      const text: string | undefined = content;
-      if (text !== undefined) {
-        setContent(text + speechCatch);
-      } else {
-        setContent(speechCatch);
+      if (listen) {
+        const text: string | undefined = content;
+        if (text !== undefined) {
+          setContent(text + speechCatch);
+        } else {
+          setContent(speechCatch);
+        }
+        setSpeechCatch('');
       }
-      setSpeechCatch('');
       SpeechRecognition.startListening();
     }
   }, [listening]);
@@ -64,7 +66,7 @@ export const ChatInput: FC<Props> = ({
   useEffect(() => {
     handleVoiceCommand(transcript);
     if (listen) {
-        setSpeechCatch(transcript);
+      setSpeechCatch(transcript);
     }
   }, [transcript]);
 
