@@ -132,7 +132,11 @@ export const ChatInput: FC<Props> = ({
       console.log(`start command`)
       setListen(true);
     }
-    if (command === 'send') {
+    const sendCommandList: string[] = [
+      'send', 'cend', 'cent', 'sen'
+    ];
+    if (sendCommandList.filter((item: string) => 
+    item.trim().replace(' ', '') === command).length > 0) {
       console.log(`send command`);
       setListen(false);
       handleSend();
