@@ -193,7 +193,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
         setSpeaking(true);
         if (speaking) {
           const utterance = new SpeechSynthesisUtterance(text);
-          const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
+          // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
+          const voices = speechSynthesis.getVoices().filter(voice => voice.voiceURI === 'Google US English');
           if (voices.length > 0) {
             utterance.voice = voices[0];
           }
