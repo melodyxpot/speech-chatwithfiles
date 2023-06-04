@@ -55,6 +55,10 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   const stopConversationRef = useRef<boolean>(false);
 
   useEffect(() => {
+    window.speechSynthesis.getVoices()
+  }, []);
+
+  useEffect(() => {
     if (!speaking) {
       window.speechSynthesis.cancel();
       setSpeaking(false);
@@ -194,7 +198,8 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
         if (speaking) {
           const utterance = new SpeechSynthesisUtterance(text);
           // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
-          const voices = speechSynthesis.getVoices().filter(voice => voice.voiceURI === 'Google US English');
+          const voices = window.speechSynthesis.getVoices().filter(voice => voice.voiceURI === 'Google US English');
+          console.log(voices);
           if (voices.length > 0) {
             utterance.voice = voices[0];
           }
