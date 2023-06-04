@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* @import url(../styles/pushNotificationStyles.css); */
 
 ::-webkit-scrollbar-track {
   background-color: transparent;
@@ -34,4 +35,13 @@ html {
 
 pre:has(div.codeblock) {
   padding: 0;
+}
+
+.rpn-notification-card {
+  min-width: 300px;
+}
+
+.rpn-notification-card .message {
+  overflow-wrap: break-word;
+  width: 100%;
 }

@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { useTranslation } from 'next-i18next';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+// import addNotification from 'react-push-notification';
 
 interface Props {
   messageIsStreaming: boolean;
@@ -87,7 +88,16 @@ export const ChatInput: FC<Props> = ({
     }
 
     if (!content) {
-      alert(t('Please enter a message'));
+      // addNotification({
+      //   title: "Warning!",
+      //   subtitle: "Please enter a message",
+      //   // message: `Total: ${result.length}`,
+      //   theme: "red",
+      //   duration: 5000,
+      //   native: false,
+      //   closeButton: "X",
+      // })
+      // alert(t('Please enter a message'));
       return;
     }
 
