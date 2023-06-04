@@ -3387,6 +3387,11 @@ react-markdown@^8.0.5:
     unist-util-visit "^4.0.0"
     vfile "^5.0.0"
 
+react-push-notification@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/react-push-notification/-/react-push-notification-1.5.3.tgz#dc3eafc2c399b012576e3abb69d22d17589a2cee"
+  integrity sha512-0RVt28G1bJFXq9VeBK4fSLMGuwSqktCw8pHI/3yIMZDNqoB1D5K70LGJAWbbUvTZWrStZKM4VJKXg62MpYQfuw==
+
 react-speech-recognition@^3.10.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/react-speech-recognition/-/react-speech-recognition-3.10.0.tgz#7aa43bb28d78b92671864dabba3a70489ccad27b"
