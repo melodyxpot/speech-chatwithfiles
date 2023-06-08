@@ -50,22 +50,23 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
   const [messageError, setMessageError] = useState<boolean>(false);
   const [modelError, setModelError] = useState<ErrorMessage | null>(null);
   const [currentMessage, setCurrentMessage] = useState<Message>();
-  const [speaking, setSpeaking] = useState<boolean>(true);
+  const [speaking, setSpeaking] = useState<boolean>(false);
 
   const stopConversationRef = useRef<boolean>(false);
 
   useEffect(() => {
-    window.speechSynthesis.getVoices()
+    window.speechSynthesis.getVoices();
   }, []);
 
   useEffect(() => {
+    console.log(speaking)
     if (!speaking) {
       window.speechSynthesis.cancel();
-      setSpeaking(false);
     }
   }, [speaking]);
 
   const handleSend = async (message: Message, deleteCount = 0) => {
+    setSpeaking(true);
     if (selectedConversation) {
       let updatedConversation: Conversation;
 
@@ -192,19 +193,15 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
             setSelectedConversation(updatedConversation);
           }
         }
-
         // Speech-to-Text after bot reply
-        setSpeaking(true);
         if (speaking) {
           const utterance = new SpeechSynthesisUtterance(text);
           // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
           const voices = window.speechSynthesis.getVoices().filter(voice => voice.voiceURI === 'Microsoft Zira - English (United States)');
-          console.log(voices);
           if (voices.length > 0) {
             utterance.voice = voices[0];
           }
           window.speechSynthesis.speak(utterance);
-          setSpeaking(true);
         }
       } else {
         // send to chat file server
