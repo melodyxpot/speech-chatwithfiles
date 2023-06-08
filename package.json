@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@dqbd/tiktoken": "^1.0.2",
+    "@google-cloud/text-to-speech": "^4.2.2",
     "@pinecone-database/pinecone": "^0.0.14",
     "@tabler/icons-react": "^2.9.0",
     "@types/react-speech-recognition": "^3.9.2",

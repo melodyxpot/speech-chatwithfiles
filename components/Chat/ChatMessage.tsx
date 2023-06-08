@@ -73,8 +73,9 @@ export const ChatMessage: FC<Props> = memo(
         setSpeaking(false);
       } else {
         const utterance = new SpeechSynthesisUtterance(message.content);
-        const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
-        // const voices = speechSynthesis.getVoices().filter(voice => voice.voiceURI === 'Google US English');
+        console.log(speechSynthesis.getVoices());
+        // const voices = speechSynthesis.getVoices().filter(voice => voice.lang.startsWith("en") && voice.name.includes('Female'));
+        const voices = speechSynthesis.getVoices().filter(voice => voice.voiceURI === 'Microsoft Zira - English (United States)');
         if (voices.length > 0) {
           utterance.voice = voices[0];
         }
