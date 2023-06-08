@@ -56,17 +56,16 @@ const Home: React.FC<HomeProps> = ({ serverSideApiKeyIsSet }) => {
 
   useEffect(() => {
     window.speechSynthesis.getVoices();
+    setSpeaking(true);
   }, []);
 
   useEffect(() => {
-    console.log(speaking)
     if (!speaking) {
       window.speechSynthesis.cancel();
     }
   }, [speaking]);
 
   const handleSend = async (message: Message, deleteCount = 0) => {
-    setSpeaking(true);
     if (selectedConversation) {
       let updatedConversation: Conversation;
 
