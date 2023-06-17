@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
-import { IncomingForm } from 'formidable';
+import { IncomingForm, Part } from 'formidable';
 import { CHAT_FILES_SERVER_HOST, OPENAI_API_HOST } from '@/utils/app/const';
 import { LlamaIndex } from '@/types';
 import PDFParser from 'pdf-parse';
@@ -15,6 +15,8 @@ import { OpenAIEmbeddings } from 'langchain/embeddings/openai';
 import { PineconeStore } from 'langchain/vectorstores/pinecone';
 import { DirectoryLoader } from 'langchain/document_loaders/fs/directory';
 import { CustomPDFLoader } from '@/utils/customPDFLoader';
+import { CustomTextLoader } from '@/utils/customTextLoader';
+import { CustomMarkdownLoader } from '@/utils/customMarkdownLoader';
 
 export const config = {
   api: {
@@ -31,12 +33,23 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const form = new IncomingForm({
     multiples: false,
-    uploadDir: 'pdf',
-    filename: (name: string, ext: string) => {
-      return v4() + '.pdf';
+    uploadDir: process.env.UPLOAD_DIR ?? '',
+    filename: (name: string, ext: string, part: Part) => {
+      var extension = '';
+      switch (part.mimetype) {
+        case 'application/pdf':
+          extension = 'pdf';
+          break;
+        case 'text/plain':
+          extension = 'txt';
+          break;
+        case 'application/octet-stream':
+          extension = 'md';
+          break;
+      }
+      return `${v4()}.${extension}`;
     },
   });
-
   try {
     // Form.parse will automatically save the file to the temporary directory.
     const fData = await new Promise<{ fields: any; files: any }>(
@@ -51,9 +64,14 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (fData?.files.file) {
       const uploadedFile = fData.files.file;
 
-      const directoryLoader = new DirectoryLoader(uploadedFile.filepath, {
-        '.pdf': (path) => new CustomPDFLoader(path),
-      });
+      const directoryLoader = new DirectoryLoader(
+        process.env.UPLOAD_DIR ?? '',
+        {
+          '.pdf': (path) => new CustomPDFLoader(path),
+          '.txt': (path) => new CustomTextLoader(path),
+          '.md': (path) => new CustomMarkdownLoader(path),
+        },
+      );
 
       // const loader = new PDFLoader(filePath);
       const rawDocs = await directoryLoader.load();

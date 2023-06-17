@@ -94,7 +94,7 @@ export const Upload = ({
             {t('or drag and drop.')}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            {t('File supported types: TXT, PDF, EPUB, Markdown, Zip...')}
+            {t('File supported types: TXT, PDF, Markdown')}
           </p>
         </div>
         <input

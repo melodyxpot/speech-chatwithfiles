@@ -1,0 +1,7 @@
+Can you explain the article in 10 bullet points?
+Can you list the the key findings?
+Can you list the possible real-world implications for the business and tech industry
+What industries would this research have potentially practical applications?
+Can you write a short background on the topic and how this research fits within that broader topic?
+Can you write a summary that focuses on the key findings and highlights the implications of the research to a mainstream audience.
+Can you generate a glossary of any technical jargon or words that appear above a 12th-grade reading level.
