@@ -1,4 +1,4 @@
-[![My Skills](https://skillicons.dev/icons?i=nextjs,tailwind,react)](https://skillicons.dev)<a href="https://www.buymeacoffee.com/iguangzhengli" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+[![My Skills](https://skillicons.dev/icons?i=nextjs,tailwind,react)](https://skillicons.dev)
 # PDF + Speech ChatBot
 
 ![Chatfiles](./doc/chatfiles.png)
@@ -13,7 +13,7 @@ Open https://speechchatbotwithfiles.impactbuidler.app and chat with [Good Exampl
 ### How to run locally without limited
 1. clone this repository.
 2. create a .env file on root path.
-3. put your Variables to .env file with the variables in env.example
+3. put your variables to .env file with the variables in env.example
 
 run this project with docker compose.
 ```shell
